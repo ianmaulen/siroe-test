@@ -13,5 +13,5 @@
 
    3. Inicia la aplicación:
       ```bash
-      ng start
+      ng serve
       ```
