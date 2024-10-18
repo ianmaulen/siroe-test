@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "drop-off-app": {
+    "a-siroe-app": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/drop-off-app",
+            "outputPath": "dist/a-siroe-app",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -69,10 +69,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "drop-off-app:build:production"
+              "buildTarget": "a-siroe-app:build:production"
             },
             "development": {
-              "buildTarget": "drop-off-app:build:development"
+              "buildTarget": "a-siroe-app:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -103,5 +103,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

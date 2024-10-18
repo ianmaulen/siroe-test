@@ -1,0 +1,89 @@
+<div class="cotizador min-w-96">
+    <div class="bg-white shadow-md rounded-lg p-6 w-96"> <!-- Se agregó un contenedor de tarjeta -->
+        <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+            <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Cotizador de Paquetes</h2>
+        </div>
+        <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+            <form [formGroup]="cotizadorForm" (ngSubmit)="calcularCotizacion()">
+                <div>
+                    <label for="largo" class="block text-sm font-medium leading-6 text-gray-900">Largo (cm):</label>
+                    <div class="mt-1">
+                        <input id="largo" formControlName="largo" type="number" min="0"
+                        class="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                    </div>
+                    <div *ngIf="cotizadorForm.get('largo')?.invalid && (cotizadorForm.get('largo')?.touched || cotizadorForm.get('largo')?.dirty)" class="text-red-600 mt-1">
+                        <div class="text-sm" *ngIf="cotizadorForm.get('largo')?.errors?.['required']">El campo es obligatorio.</div>
+                        <div class="text-sm" *ngIf="cotizadorForm.get('largo')?.errors?.['min']">El valor debe ser mayor que 0.</div>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <div class="flex items-center justify-between">
+                        <label for="ancho" class="block text-sm font-medium leading-6 text-gray-900">Ancho (cm):</label>
+                        <div class="text-sm">
+                        </div>
+                    </div>
+                    <div class="mt-1">
+                        <input id="ancho" type="number" formControlName="ancho" min="0"
+                        class="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                    </div>
+                    <div *ngIf="cotizadorForm.get('ancho')?.invalid && (cotizadorForm.get('ancho')?.touched || cotizadorForm.get('ancho')?.dirty)" class="text-red-600 mt-1">
+                        <div class="text-sm" *ngIf="cotizadorForm.get('ancho')?.errors?.['required']">El campo es obligatorio.</div>
+                        <div class="text-sm" *ngIf="cotizadorForm.get('ancho')?.errors?.['min']">El valor debe ser mayor que 0.</div>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <div class="flex items-center justify-between">
+                        <label for="alto" class="block text-sm font-medium leading-6 text-gray-900">Alto (cm):</label>
+                        <div class="text-sm">
+                        </div>
+                    </div>
+                    <div class="mt-1">
+                        <input id="alto" type="number" formControlName="alto" min="0"
+                        class="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                    </div>
+                    <div *ngIf="cotizadorForm.get('alto')?.invalid && (cotizadorForm.get('alto')?.touched || cotizadorForm.get('alto')?.dirty)" class="text-red-600 mt-1">
+                        <div class="text-sm" *ngIf="cotizadorForm.get('alto')?.errors?.['required']">El campo es obligatorio.</div>
+                        <div class="text-sm" *ngIf="cotizadorForm.get('alto')?.errors?.['min']">El valor debe ser mayor que 0.</div>
+                    </div>
+                </div>
+                <button type="submit" 
+                        [disabled]="!isValid" 
+                        class="flex w-full justify-center mt-4 rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Calcular</button>
+
+            </form>
+            <div class="mt-3" *ngIf="showConfirmMsg">
+                <div class="relative max-lg:row-start-1">
+                    <div class="absolute inset-px rounded-lg bg-white max-lg:rounded-t-[2rem]"></div>
+                    <div class="relative flex h-full flex-col overflow-hidden rounded-lg">
+                        <div class="px-5 py-5 sm:px-5 sm:py-8 flex h-full flex-col overflow-hidden max-lg:rounded-t-[2rem] bg-green-100">
+                            <button (click)="close()" class="absolute top-2 right-2 text-gray-900">✖</button> <!-- Botón 'x' -->
+                            <p class="mt-2 text-lg/7 font-medium tracking-tight text-gray-950 max-lg:text-center">¡Pedido ingresado correctamente!</p>
+                            <p class="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">Costo: ${{ costo | number:'1.0-0' }} CLP</p>
+                            <p class="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">Volumen: {{ volumen / 1000000 }} m³</p>
+                            <p class="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">Número del pedido: {{ numeroOrden }}</p>
+                            <p class="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">Fecha de ingreso: {{ this.fecha }}</p>
+                            <p class="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">Hora de ingreso: {{ this.hora }} </p>
+                        </div>
+                    </div>
+                    <div class="pointer-events-none absolute inset-px rounded-lg shadow ring-1 ring-black/5 max-lg:rounded-t-[2rem]"></div>
+                </div>
+            </div>
+            <div class="mt-3" *ngIf="showErrorMsg">
+                <div class="relative max-lg:row-start-1">
+                    <div class="absolute inset-px rounded-lg bg-white max-lg:rounded-t-[2rem]"></div>
+                    <div class="relative flex h-full flex-col overflow-hidden rounded-lg">
+                        <div class="px-5 py-5 sm:px-5 sm:py-8 flex h-full flex-col overflow-hidden max-lg:rounded-t-[2rem] bg-red-100">
+                            <button (click)="close()" class="absolute top-2 right-2 text-gray-900">✖</button> <!-- Botón 'x' -->
+                            <p class="mt-2 text-lg/7 font-medium tracking-tight text-gray-950 max-lg:text-center">¡Oops!</p>
+                            <p class="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">El volumen excede el máximo permitido (20m³). 
+                                Por favor, operar con ejecutivo.</p>
+                        </div>
+                    </div>
+                    <div class="pointer-events-none absolute inset-px rounded-lg shadow ring-1 ring-black/5 max-lg:rounded-t-[2rem]"></div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- Fin del contenedor de tarjeta -->
+</div>
